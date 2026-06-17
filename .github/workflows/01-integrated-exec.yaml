@@ -7,7 +7,7 @@ on:
   workflow_dispatch: # Manual
   push:              # Push
     branches:
-      -master
+      - master
 
   # Agendado (Ex: Toda segunda a sexta às 04:00 PM)
   schedule:
@@ -63,7 +63,7 @@ jobs:
       - name: Instalando dependências
         run: yarn
       - name: Instalando Browsers do Playwright
-        run: yarn playwright install
+        run: npx playwright install --with-deps
       - name: Executando testes E2E
         run: yarn run e2e
       - name: Salvando relatórios de testes
