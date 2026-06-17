@@ -1,0 +1,40 @@
+version: 2.1
+
+# 1. Definição das tarefas (Jobs)
+jobs:
+  e2e-tests:
+    # Máquina corrigida usando uma versão exata do Node 24 preparada para testes com navegadores
+    docker:
+      - image: cimg/node:24.0.0-browsers
+
+    steps:
+      # Clone do projeto
+      - checkout
+
+      # Instalação das dependências do projeto
+      - run:
+          name: Instalando dependências
+          command: yarn install
+
+      # Instalação dos Browsers e dependências do Playwright
+      - run:
+          name: Instalando Browsers do Playwright
+          command: yarn playwright install
+
+      # Executar os testes e2e
+      - run:
+          name: Executando testes e2e
+          command: yarn run e2e
+
+# 2. Organização do Fluxo de Trabalho (Workflows)
+workflows:
+  execucao-manual:
+    jobs:
+      # Criamos uma etapa de pausa que exige clique no painel do CircleCI
+      - aguardar-clique:
+          type: approval
+
+      # O teste de e2e só roda DEPOIS que você clicar para aprovar
+      - e2e-tests:
+          requires:
+            - aguardar-clique
