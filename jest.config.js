@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   clearMocks: true,
 
   collectCoverage: true,
@@ -12,10 +12,5 @@ export default {
 
   testEnvironment: 'node',
 
-  testPathIgnorePatterns: ['/node_modules/', '/e2e/'],
-
-  // IMPORTANTE: remove setupFiles errado
-  setupFilesAfterEnv: [],
-
-  verbose: true
+  testPathIgnorePatterns: ['/node_modules/', '/e2e/']
 };
