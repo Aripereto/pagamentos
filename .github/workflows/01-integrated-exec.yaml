@@ -61,7 +61,7 @@ jobs:
       - name: Instalando Yarn
         run: npm install -g yarn      
       - name: Instalando dependências
-        run: yarn      - 
+        run: yarn
       - name: Instalando Browsers do Playwright
         run: yarn playwright install
       - name: Executando testes E2E
