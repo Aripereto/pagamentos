@@ -1,17 +1,14 @@
-# CI - Pipeline Integrada ao Build do Código
-name: 'Execução Integrada Dinâmica'
-
-# Triggers
+name: 'Testes Automatizados CI'
 
 on:
-  workflow_dispatch: # Manual
-  push:              # Push
+  workflow_dispatch:
+
+  push:
     branches:
       - master
 
-  # Agendado (Ex: Toda segunda a sexta às 04:00 PM)
   schedule:
-    - cron: '30 16 * * 1-5'
+    - cron: '0 8 * * 1-5'
 
 jobs:
   
@@ -74,9 +71,9 @@ jobs:
           name: Relatório de Testes E2E
                           
   deploy:
-      runs-on: ubuntu-latest
-      needs: [unidade, e2e-tests]
+    runs-on: ubuntu-latest
+    needs: [unidade, e2e-tests]
 
-      steps:
+    steps:
       - name: Simulação de Deploy
         run: echo 'Deploy sendo realizado...'
