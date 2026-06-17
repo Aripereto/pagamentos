@@ -8,9 +8,9 @@ on:
   push:              # Gatilho por Push
     branches:
       - master
-  # Gatilho Agendado (Ex: Toda segunda a sexta às 03:00 AM)
+  # Gatilho Agendado (Ex: Toda segunda a sexta às 04:00 PM)
   schedule:
-    - cron: '0 3 * * 1-5'
+    - cron: '30 16 * * 1-5'
 
 jobs:
   # INSPEÇÃO (Roda em QUALQUER um dos 3 gatilhos)
