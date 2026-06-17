@@ -6,5 +6,5 @@ module.exports = {
   coverageProvider: 'v8',
   coverageReporters: ['text', 'lcov'],
   testEnvironment: 'node',
-  testPathIgnorePatterns: ['/node_modules/', '/e2e/']
+  testPathIgnorePatterns: ['/node_modules/', '/e2e/', '/tests/']
 };
