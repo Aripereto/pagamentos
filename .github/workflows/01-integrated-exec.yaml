@@ -8,22 +8,22 @@ on:
   push:              # Push
     branches:
       -master
-      - main
 
   # Agendado (Ex: Toda segunda a sexta às 04:00 PM)
   schedule:
     - cron: '30 16 * * 1-5'
 
 jobs:
-  # INSPEÇÃO (Roda em QUALQUER um dos 3 gatilhos)
-
+  
   inspecao:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 24.x
+          node-version: latest
+
       - name: Instalando Yarn
         run: npm install -g yarn
       - name: Instalando dependências
@@ -31,45 +31,37 @@ jobs:
       - name: Inspeção de Código
         run: yarn lint
 
-  # TESTES UNITÁRIOS (Roda apenas no PUSH e no MANUAL)
-
   unidade:
     runs-on: ubuntu-latest
     needs: [inspecao]
 
-    # Não roda se for um evento agendado (schedule)
-
-    if: github.event_name != 'schedule'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 24.x
+          node-version: latest
+
       - name: Instalando Yarn
         run: npm install -g yarn
       - name: Instalando dependências
         run: yarn
       - name: Rodando testes unitários
         run: yarn run test
-
-  # TESTES E2E (Roda apenas no AGENDADO e no MANUAL)
-
+  
   e2e-tests:
     runs-on: ubuntu-latest
     needs: [inspecao]
-
-  # Não roda se for um push direto na master
-
-    if: github.event_name != 'push'
+      
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 24.x
+          node-version: latest
+
       - name: Instalando Yarn
-        run: npm install -g yarn
+        run: npm install -g yarn      
       - name: Instalando dependências
-        run: yarn
+        run: yarn      - 
       - name: Instalando Browsers do Playwright
         run: yarn playwright install
       - name: Executando testes E2E
@@ -78,25 +70,13 @@ jobs:
         uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
-          name: relatorio-testes-e2e
           path: ./playwright-report
-
-  # DEPLOY (Roda APENAS via PUSH ou MANUAL)
-
+          name: Relatório de Testes E2E
+                          
   deploy:
-    runs-on: ubuntu-latest
+      runs-on: ubuntu-latest
+      needs: [unidade, e2e-tests]
 
-    # O deploy aguarda os jobs que REALMENTE foram executados
-
-    needs: [inspecao, unidade, e2e-tests]
-
-    # Garante que o deploy não execute durante a rotina agendada (schedule)
-   
-    if: |
-      always() &&
-      github.event_name != 'schedule' &&
-      (needs.unidade.result == 'success' || needs.unidade.result == 'skipped') &&
-      (needs.e2e-tests.result == 'success' || needs.e2e-tests.result == 'skipped')
-    steps:
+      steps:
       - name: Simulação de Deploy
         run: echo 'Deploy sendo realizado...'
