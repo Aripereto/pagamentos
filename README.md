@@ -27,13 +27,22 @@ Execução por Push:
 
 A pipeline é executada automaticamente sempre que há um push na branch principal (main).
 
-Execução Manual:
+Execução Manual (workflow_dispatch:):
 
 A execução pode ser iniciada manualmente através do GitHub Actions usando workflow_dispatch.
 
-Execução Agendada:
+Execução Agendada (schedule):
 
 A pipeline é executada automaticamente em horários definidos via cron (em UTC), permitindo execuções periódicas.
+
+A execução agendada utiliza padrão UTC:
+
+cron: '0 8 * * 1-5'
+
+Isso significa:
+
+Segunda a sexta-feira
+08:00 UTC
 
 
 A pipeline gera e armazena automaticamente os relatórios:
@@ -45,13 +54,3 @@ Relatório de testes E2E (Playwright)
 Local: playwright-report
 
 Esses arquivos são enviados como Artifacts no GitHub Actions, permitindo download e análise posterior.
-
-
-A execução agendada utiliza padrão UTC:
-
-cron: '0 8 * * 1-5'
-
-Isso significa:
-
-Segunda a sexta-feira
-08:00 UTC
