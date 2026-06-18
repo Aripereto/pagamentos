@@ -47,9 +47,6 @@ Segunda a sexta-feira
 
 A pipeline gera e armazena automaticamente os relatórios:
 
-Relatório de cobertura (Jest)
-Local: reports/coverage
-
 Relatório de testes E2E (Playwright)
 Local: playwright-report
 
